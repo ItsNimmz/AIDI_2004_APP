@@ -1,13 +1,15 @@
 body {
     margin: 0;
     font-family: Arial, sans-serif;
-    background: linear-gradient(45deg, #1db954, #191414);
+    /* background: linear-gradient(45deg, #1db954, #191414); */
+    background: #1b6734;
     color: #000000;
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100vh;
+    /* height: 100vh; */
     flex-direction: column;
+    margin: 5%;
 }
 h1 {
     margin-bottom: 20px;
