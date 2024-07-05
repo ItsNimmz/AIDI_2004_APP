@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Management</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+</head>
+<body>
+    <h1>Welcome to the Student Management System</h1>
+    <a href="{{ url_for('get_students') }}">View Students</a>
+    <a href="{{ url_for('add_student') }}">Add New Student</a>
+</body>
+</html>
+
