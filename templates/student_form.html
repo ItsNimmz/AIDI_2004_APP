@@ -8,17 +8,26 @@
 </head>
 <body>
     <h1>{{ 'Edit' if update else 'Add' }} Student</h1>
-    <form action="{{ url_for('update_student', student_id=student.student_id) if update else url_for('add_student') }}" method="post">
-        <label for="first_name">First Name:</label>
-        <input type="text" name="first_name" value="{{ student.first_name if update else '' }}" required><br>
-        <label for="last_name">Last Name:</label>
-        <input type="text" name="last_name" value="{{ student.last_name if update else '' }}" required><br>
-        <label for="dob">Date of Birth:</label>
-        <input type="date" name="dob" value="{{ student.dob if update else '' }}" required><br>
-        <label for="amount_due">Amount Due:</label>
-        <input type="number" name="amount_due" value="{{ student.amount_due if update else '' }}" required><br>
-        <button type="submit">{{ 'Update' if update else 'Add' }} Student</button>
+    <form action="{{ url_for('update_student', student_id=student.student_id) if update else url_for('add_student') }}" method="post" onsubmit="return validateForm()">
+        <h2>{{ 'Edit Student Details' if update else 'Add Student Details' }}</h2>
+        <button class="home-button" onclick="window.location.href='/'">Home</button>
+        <label for="first_name">First Name:</label><br>
+        <input type="text" id="first_name" name="first_name" value="{{ student.first_name if update else '' }}" required><br>
+        <span id="first_name_error" class="error"></span><br>
+
+        <label for="last_name">Last Name:</label><br>
+        <input type="text" id="last_name" name="last_name" value="{{ student.last_name if update else '' }}" required><br>
+        <span id="last_name_error" class="error"></span><br>
+
+        <label for="dob">Date of Birth:</label><br>
+        <input type="date" id="dob" name="dob" value="{{ student.dob.strftime('%Y-%m-%d') if update else '' }}" required><br>
+        <span id="dob_error" class="error"></span><br>
+
+        <label for="amount_due">Amount Due:</label><br>
+        <input type="number" id="amount_due" name="amount_due" min="0" step="0.01"  value="{{ student.amount_due if update else '' }}" required><br>
+        <span id="amount_due_error" class="error"></span><br>
+
+        <input class="submit_btn" type="submit" value="Submit">
     </form>
-    <a href="{{ url_for('get_students') }}">Back to Students</a>
 </body>
 </html>
