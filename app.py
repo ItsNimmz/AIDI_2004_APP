@@ -20,7 +20,6 @@ class Student(db.Model):
     dob = db.Column(db.Date, nullable=False)
     amount_due = db.Column(db.Float, nullable=False)
 
-
 # Create the database and the database table
 with app.app_context():
     db.create_all()
@@ -30,7 +29,53 @@ with app.app_context():
 def index():
     return render_template('index.html')
 
+# Show all records
+@app.route('/students')
+def get_students():
+    students = Student.query.all()
+    return render_template('students.html', students=students)
 
+# Create a student
+@app.route('/student/new', methods=['GET', 'POST'])
+def add_student():
+    if request.method == 'POST':
+        data = request.form
+        new_student = Student(
+            first_name=data['first_name'],
+            last_name=data['last_name'],
+            dob=datetime.strptime(data['dob'], '%Y-%m-%d'),
+            amount_due=data['amount_due']
+        )
+        db.session.add(new_student)
+        db.session.commit()
+        return redirect(url_for('get_students'))
+    return render_template('student_form.html')
+
+# Read a student by ID
+@app.route('/student/<int:student_id>')
+def get_student(student_id):
+    student = Student.query.get_or_404(student_id)
+    return render_template('student_form.html', student=student, update=True)
+
+# Update a student by ID
+@app.route('/student/update/<int:student_id>', methods=['POST'])
+def update_student(student_id):
+    data = request.form
+    student = Student.query.get_or_404(student_id)
+    student.first_name = data['first_name']
+    student.last_name = data['last_name']
+    student.dob = datetime.strptime(data['dob'], '%Y-%m-%d')
+    student.amount_due = data['amount_due']
+    db.session.commit()
+    return redirect(url_for('get_students'))
+
+# Delete a student by ID
+@app.route('/student/delete/<int:student_id>')
+def delete_student(student_id):
+    student = Student.query.get_or_404(student_id)
+    db.session.delete(student)
+    db.session.commit()
+    return redirect(url_for('get_students'))
 
 # Run the application
 if __name__ == '__main__':
