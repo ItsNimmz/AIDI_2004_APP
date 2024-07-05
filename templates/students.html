@@ -7,6 +7,13 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
     <title>Students List</title>
 </head>
+<!-- SweetAlert2 JS -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+<!-- Bootstrap JS and dependencies -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
 <script>
     function confirmDelete(studentId) {
@@ -18,10 +25,30 @@
     function editStudent(studentId) {
         window.location.href = `/student/${studentId}`;
     }
+     // Function to confirm delete using SweetAlert2
+     function confirmDelete(studentId) {
+        Swal.fire({
+            // title: 'Delete Confirmation',
+            text: 'Are you sure you want to delete this student?',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#d33',
+            cancelButtonColor: '#1db954',
+            confirmButtonText: 'Delete'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                // Redirect or perform delete operation
+                window.location.href = `/student/delete/${studentId}`;
+            }
+        });
+    }
 </script>
 <body>
-    <h2 style="color: white;">Students List</h2>
+    <h1 style="color: white;">Students List</h1>
     <button class="home-button" onclick="window.location.href='/'">Home</button>
+    {% if not students %}
+        <p>No students available.</p>
+    {% else %}
     <table>
         <thead>
             <tr>
@@ -49,5 +76,6 @@
             {% endfor %}
         </tbody>
     </table>
+    {% endif %}
 </body>
 </html>
